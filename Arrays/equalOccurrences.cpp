@@ -7,7 +7,7 @@ using namespace std;
     If it is not balanced, it returns the minimum number of moves(along with length of balanced subarray) to make it balanced.
 */
 
-int findMin(int freqArr[], int freqArrSize);
+int findMax(int freqArr[], int freqArrSize);
 
 int main()
 {
@@ -45,34 +45,46 @@ int main()
 
     if (!balanced)
     {
-        int leastOccurring = findMin(freqArray, freqCounter);
-        for (int i = 0; i < freqCounter; i++)
+        int maxLen = 0;
+        for (int target = 1; target <= findMax(freqArray, freqCounter); target++)
         {
-            if (freqArray[i] > leastOccurring)
+            for (int i = 0; i < freqCounter; i++)
             {
-                k += (freqArray[i] - leastOccurring);
+                int count = 0;
+                if (freqArray[i] >= target)
+                {
+                    count++;
+                }
+
+                if ((count * target) > maxLen)
+                {
+                    maxLen = (count * target);
+                }
             }
         }
-    }
 
-    cout << "The value of k is " << k << endl;
-    cout << "The length of balanced subarray is: " << n - k << endl;
+        cout << "The length of balanced subarray is: " << maxLen << endl;
+    }
+    else
+    {
+        cout << "The length of balanced subarray is: " << n << endl;
+    }
 
     cout << endl;
     system("pause");
     return 0;
 }
 
-int findMin(int freqArr[], int freqArrSize)
+int findMax(int freqArr[], int freqArrSize)
 {
-    int smallest = INT_MAX;
+    int largest = INT_MIN;
     for (int i = 0; i < freqArrSize; i++)
     {
-        if (freqArr[i] < smallest)
+        if (freqArr[i] > largest)
         {
-            smallest = freqArr[i];
+            largest = freqArr[i];
         }
     }
 
-    return smallest;
+    return largest;
 }
