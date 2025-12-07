@@ -1,6 +1,12 @@
 #include <iostream>
 using namespace std;
 
+/*
+    this program takes an array and sorts the elements according to DESCENDING frequencies
+
+    in case two or more adjacent elements have the same frequencies, they're sorted in ascending order
+*/
+
 int findMaxIndex(int arr[], int n);
 void removeElementAtIndex(int arr[], int &n, int targetIndex); // subtracts 1 from n
 void adjustFreqDistinctArrays(int freq[], int distinct[], int n);
