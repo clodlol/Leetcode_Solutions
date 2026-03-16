@@ -41,11 +41,10 @@ void getPermutations(const int &n, const string &chars, string &prefix, vector<s
 {
     if (n == 1)
     {
-        for (int i = 0; i < chars.size(); ++i)
+        for (int i = 0; i < chars.size(); ++i) // O(n^2)
         {
             string res = prefix + chars.at(i);
-            storePermutation(res, permutations);
-            // cout << prefix << chars.at(i) << "\n";
+            storePermutation(res, permutations); // O(n)
         }
         return;
     }
@@ -56,7 +55,7 @@ void getPermutations(const int &n, const string &chars, string &prefix, vector<s
         tPrefix += chars.at(i);
 
         string tChars = chars;
-        tChars.erase(tChars.begin() + i);
+        tChars.erase(tChars.begin() + i); // O(n)
 
         getPermutations(n - 1, tChars, tPrefix, permutations);
     }
@@ -64,10 +63,12 @@ void getPermutations(const int &n, const string &chars, string &prefix, vector<s
 
 int main()
 {
-    string s = "aabac", prefix;
+    string s, prefix;
     vector<string> permutations;
 
-    sortLexicographically(s);
+    cin >> s;
+
+    sortLexicographically(s); // O(n^2)
     getPermutations(s.size(), s, prefix, permutations);
 
     cout << permutations.size() << "\n";
