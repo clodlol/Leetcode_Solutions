@@ -1,24 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <set>
 using namespace std;
-
-inline void storeSum(vector<int> &sums, const int &currSum)
-{
-    bool dupe = false;
-    for (const int &i : sums)
-    {
-        if (i == currSum)
-        {
-            dupe = true;
-            break;
-        }
-    }
-
-    if (!dupe)
-    {
-        sums.push_back(currSum);
-    }
-}
 
 inline int calculateCurrentRhombusSum(const vector<vector<int>> &grid, const int &top, const int &left, const int &bottom, const int &right, const int &i, const int &j)
 {
@@ -47,7 +30,7 @@ inline int calculateCurrentRhombusSum(const vector<vector<int>> &grid, const int
     return sum;
 }
 
-inline void calculateRhombusSums(const vector<vector<int>> &grid, const int &i, const int &j, vector<int> &sums) // Print all possible rombuses around (i, j)
+inline void calculateRhombusSums(const vector<vector<int>> &grid, const int &i, const int &j, set<int> &sums) // Print all possible rombuses around (i, j)
 {
     const int totalRows = grid.size();
     const int totalCols = grid[0].size();
@@ -56,7 +39,7 @@ inline void calculateRhombusSums(const vector<vector<int>> &grid, const int &i, 
     while (du >= 0 && dl >= 0 && dr < totalCols && dd < totalRows)
     {
         int curr = calculateCurrentRhombusSum(grid, du, dl, dd, dr, i, j); // take the corners of the rhombus and calculate sum
-        storeSum(sums, curr);
+        sums.insert(curr);
         // cout << "\n";
 
         du--;
@@ -122,7 +105,7 @@ int main()
     //                             {9, 0, 1, 2, 3},
     //                             {4, 5, 6, 7, 8},
     //                             {9, 0, 1, 2, 3}};
-    vector<int>
+    set<int>
         sums;
     vector<int> ans;
 
@@ -134,17 +117,10 @@ int main()
         }
     }
 
-    for (int i = 0; i < 3 && !sums.empty(); ++i)
+    auto it = sums.rbegin();
+    for (int k = 0; k < 3 && it != sums.rend(); ++k, ++it)
     {
-        int largestIndex = 0;
-        for (int j = 1; j < sums.size(); ++j)
-        {
-            if (sums[j] > sums[largestIndex])
-                largestIndex = j;
-        }
-
-        ans.push_back(sums[largestIndex]);
-        sums.erase(sums.begin() + largestIndex);
+        ans.push_back(*it);
     }
 
     for (const int &i : ans)
